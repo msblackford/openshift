@@ -31,7 +31,7 @@ class Consumer(multiprocessing.Process):
         
     def run(self):
         consumer = KafkaConsumer(bootstrap_servers='kafka-0.kafka.kafka-b.svc.cluster.local:9092,kafka-1.kafka.kafka-b.svc.cluster.local:9092,kafka-2.kafka.kafka-b.svc.cluster.local:9092',
-                                 consumer_timeout_ms=1000)
+                                 consumer_timeout_ms=10000)
         consumer.subscribe(['my-topic'])
 
         counter = 1
