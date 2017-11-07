@@ -13,7 +13,7 @@ class Producer(threading.Thread):
         self.stop_event.set()
 
     def run(self):
-        producer = KafkaProducer(bootstrap_servers='kafka-2.kafka.kafka-b.svc.cluster.local:9093')
+        producer = KafkaProducer(bootstrap_servers='kafka-0.kafka.kafka-b.svc.cluster.local:9092,kafka-1.kafka.kafka-b.svc.cluster.local:9092,kafka-2.kafka.kafka-b.svc.cluster.local:9092')
 
         while not self.stop_event.is_set():
             producer.send('my-topic', b"Hello World!")
@@ -30,7 +30,7 @@ class Consumer(multiprocessing.Process):
         self.stop_event.set()
         
     def run(self):
-        consumer = KafkaConsumer(bootstrap_servers='kafka-2.kafka.kafka-b.svc.cluster.local:9093',
+        consumer = KafkaConsumer(bootstrap_servers='kafka-0.kafka.kafka-b.svc.cluster.local:9092,kafka-1.kafka.kafka-b.svc.cluster.local:9092,kafka-2.kafka.kafka-b.svc.cluster.local:9092',
                                  consumer_timeout_ms=1000)
         consumer.subscribe(['my-topic'])
 
