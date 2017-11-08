@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import threading, logging, time
 import multiprocessing
 import os
