@@ -7,7 +7,7 @@ from kafka import TopicPartition
 class Consumer:
     
     def run(self):
-        topic = 'ctm-transaction-topic'
+        topic = 'ctm-transactions-topic'
         group_id = ''
         servers = os.environ['SERVER'].split(',')
 
@@ -16,7 +16,7 @@ class Consumer:
         consumer = KafkaConsumer(
             topic,
             bootstrap_servers=servers,
-            auto_offset_reset='earliest'
+            auto_offset_reset='earliest' #this reads from start off queue
             )
 
 
