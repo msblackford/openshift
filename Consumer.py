@@ -13,19 +13,20 @@ class Consumer:
 
         print( "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topics) + "\n servers: " + str(servers) )
 
-        partition = TopicPartition(topics, 0)
-
-        print("Partition: " + str(partition))
+        #partition = TopicPartition(topics, 0)
+        #print("Partition: " + str(partition))
 
         consumer = KafkaConsumer(
             topics,
             group_id=group_id,
             bootstrap_servers=servers,
+            auto_offset_reset='earliest'
             )
 
-        consumer.assign( partition )
-
-        consumer.seek_to_beginning(partition)
+        #consumer.assign( partition )
+        #consumer.seek_to_beginning(partition)
+        
+        consumer.subscribe(topics)
 
         counter = 1
         for message in consumer:
