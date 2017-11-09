@@ -13,7 +13,7 @@ class Consumer(multiprocessing.Process):
     def start(self):
         topics = 'my-topic'
         group_id = 'prodcon_contest'
-        servers = os.environ['SERVERS'].split(',')
+        servers = os.environ['SERVER'].split(',')
 
         print( "Consuming Kafka messages on server: " + servers + ", topic: " + topics )
 
