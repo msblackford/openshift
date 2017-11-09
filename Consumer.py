@@ -8,7 +8,7 @@ from kafka import KafkaConsumer
 class Consumer:
     
     def run(self):
-        topics = 'my-topic'
+        topics = 'ctm-transaction-topic'
         group_id = 'prodcon_contest'
         servers = os.environ['SERVER'].split(',')
 
