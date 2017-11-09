@@ -12,13 +12,15 @@ class Consumer:
         group_id = 'prodcon_contest'
         servers = os.environ['SERVER'].split(',')
 
-        print( "Consuming Kafka messages on server: " + str(servers) + ", topic: " + str(topics) + ", group id: " + str(group_id) )
+        print( "Consuming Kafka messages on \ngroup id: " + str(group_id) + "\n topic: " + str(topics) + "\n servers: " + str(servers) )
 
         consumer = KafkaConsumer(
             topics,
             group_id=group_id,
             bootstrap_servers=servers,
-            auto_offset_reset='earliest')
+            )
+
+        consumer.seek_to_beginning()
 
         counter = 1
         for message in consumer:
