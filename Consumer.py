@@ -2,8 +2,7 @@ import threading, logging, time
 import os
 
 from kafka import KafkaConsumer
-
-
+from kafka import TopicPartition
 
 class Consumer:
     
@@ -12,7 +11,9 @@ class Consumer:
         group_id = 'prodcon_contest'
         servers = os.environ['SERVER'].split(',')
 
-        print( "Consuming Kafka messages on \ngroup id: " + str(group_id) + "\n topic: " + str(topics) + "\n servers: " + str(servers) )
+        print( "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topics) + "\n servers: " + str(servers) )
+
+        partition = TopicPartition(topics, 0)
 
         consumer = KafkaConsumer(
             topics,
@@ -20,7 +21,9 @@ class Consumer:
             bootstrap_servers=servers,
             )
 
-        consumer.seek_to_beginning()
+        #consumer.assign([ partition ])
+
+        consumer.seek_to_beginning([ partition ])
 
         counter = 1
         for message in consumer:
