@@ -9,7 +9,7 @@ class Producer(threading.Thread):
         print('Starting Producer')
         producer = KafkaProducer(bootstrap_servers=os.environ['SERVER'].split(','))
         while True:
-            producer.send('my-topic', b"Hello World!")
+            producer.send('my-topic', b"Hello Marcus!")
             print('Produced to topic')
             time.sleep(1)
 
