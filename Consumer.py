@@ -12,7 +12,7 @@ class Consumer:
         group_id = 'prodcon_contest'
         servers = os.environ['SERVER'].split(',')
 
-        print( "Consuming Kafka messages on server: " + servers + ", topic: " + topics )
+        print( "Consuming Kafka messages on server: " + str(servers) + ", topic: " + str(topics) + ", group id: " + str(group_id) )
 
         consumer = KafkaConsumer(
             topics,
