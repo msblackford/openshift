@@ -15,6 +15,8 @@ class Consumer:
 
         partition = TopicPartition(topics, 0)
 
+        print("Partition: " + str(partition))
+
         consumer = KafkaConsumer(
             topics,
             group_id=group_id,
@@ -23,7 +25,7 @@ class Consumer:
 
         #consumer.assign([ partition ])
 
-        consumer.seek_to_beginning([ partition ])
+        consumer.seek_to_beginning(partition)
 
         counter = 1
         for message in consumer:
