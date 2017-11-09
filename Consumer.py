@@ -23,7 +23,7 @@ class Consumer:
             bootstrap_servers=servers,
             )
 
-        #consumer.assign([ partition ])
+        consumer.assign( partition )
 
         consumer.seek_to_beginning(partition)
 
