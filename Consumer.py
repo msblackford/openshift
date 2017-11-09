@@ -8,7 +8,7 @@ class Consumer:
     
     def run(self):
         topics = 'ctm-transaction-topic'
-        group_id = 'prodcon_contest'
+        group_id = 'prodcon_contest_2'
         servers = os.environ['SERVER'].split(',')
 
         print( "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topics) + "\n servers: " + str(servers) )
@@ -26,7 +26,7 @@ class Consumer:
         #consumer.assign( partition )
         #consumer.seek_to_beginning(partition)
         
-        consumer.seek(0,0)
+        consumer.subscribe()
 
         counter = 1
         for message in consumer:
