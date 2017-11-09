@@ -7,10 +7,8 @@ from kafka import KafkaConsumer
 
 
 class Consumer(multiprocessing.Process):
-    def __init__(self):
-        
-        
-    def start(self):
+    
+    def run(self):
         topics = 'my-topic'
         group_id = 'prodcon_contest'
         servers = os.environ['SERVER'].split(',')
@@ -34,7 +32,7 @@ class Consumer(multiprocessing.Process):
         
 def main():
     con = Consumer()
-    con.start()
+    con.run()
 
         
         
