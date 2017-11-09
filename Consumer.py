@@ -1,21 +1,18 @@
 import threading, logging, time
-import multiprocessing
 import os
 
 from kafka import KafkaConsumer
 
 
 
-class Consumer(multiprocessing.Process):
-    def __init__(self):
-        
-        
-    def start(self):
+class Consumer:
+    
+    def run(self):
         topics = 'my-topic'
         group_id = 'prodcon_contest'
-        servers = os.environ['SERVERS'].split(',')
+        servers = os.environ['SERVER'].split(',')
 
-        print( "Consuming Kafka messages on server: " + servers + ", topic: " + topics )
+        print( "Consuming Kafka messages on server: " + str(servers) + ", topic: " + str(topics) + ", group id: " + str(group_id) )
 
         consumer = KafkaConsumer(
             topics,
@@ -34,7 +31,7 @@ class Consumer(multiprocessing.Process):
         
 def main():
     con = Consumer()
-    con.start()
+    con.run()
 
         
         
