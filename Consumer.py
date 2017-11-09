@@ -26,7 +26,7 @@ class Consumer:
         #consumer.assign( partition )
         #consumer.seek_to_beginning(partition)
         
-        consumer.subscribe(topics)
+        consumer.seek(0,0)
 
         counter = 1
         for message in consumer:
