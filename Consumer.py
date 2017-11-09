@@ -1,12 +1,11 @@
 import threading, logging, time
-import multiprocessing
 import os
 
 from kafka import KafkaConsumer
 
 
 
-class Consumer(multiprocessing.Process):
+class Consumer:
     
     def run(self):
         topics = 'my-topic'
