@@ -7,9 +7,10 @@ from kafka import TopicPartition
 class Consumer:
     
     def run(self):
-        topic = 'ctm-transactions-topic'
+        topic = 'my-topic' # 'ctm-transactions-topic'
         group_id = ''
-        servers = os.environ['SERVER'].split(',')
+        #servers = os.environ['SERVER'].split(',')
+        servers = '192.168.88.129:9092'
 
         print( "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topic) + "\n servers: " + str(servers) )
 
