@@ -2,23 +2,24 @@ import threading, logging, time
 import os
 
 from kafka import KafkaConsumer
-
-
+from kafka import TopicPartition
 
 class Consumer:
     
     def run(self):
-        topics = 'ctm-transaction-topic'
-        group_id = 'prodcon_contest'
-        servers = os.environ['SERVER'].split(',')
+        topic = 'my-topic' # 'ctm-transactions-topic'
+        group_id = ''
+        #servers = os.environ['SERVER'].split(',')
+        servers = '192.168.88.129:9092'
 
-        print( "Consuming Kafka messages on server: " + str(servers) + ", topic: " + str(topics) + ", group id: " + str(group_id) )
+        print( "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topic) + "\n servers: " + str(servers) )
 
         consumer = KafkaConsumer(
-            topics,
-            group_id=group_id,
+            topic,
             bootstrap_servers=servers,
-            auto_offset_reset='earliest')
+            auto_offset_reset='earliest' #this reads from start off queue
+            )
+
 
         counter = 1
         for message in consumer:
