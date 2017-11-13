@@ -1,15 +1,16 @@
 import threading, logging, time
 import os
+
 from kafka import KafkaConsumer
 from kafka import TopicPartition
 
 class Consumer:
     
     def run(self):
-        topic = 'my-topic' # 'ctm-transactions-topic'
+        topic = 'ctm-transactions-topic'
         group_id = ''
-        #servers = os.environ['SERVER'].split(',')
-        servers = '192.168.88.129:9092'
+        servers = os.environ['SERVER'].split(',')
+        #servers = '192.168.88.129:9092'
 
         print "Consuming Kafka messages on \n group id: " + str(group_id) + "\n topic: " + str(topic) + "\n servers: " + str(servers) 
 
