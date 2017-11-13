@@ -9,21 +9,21 @@ class Producer(threading.Thread):
 
     def run(self):
         # Run a continously producing KafkaProducer
-        #
+        # 
         # producer = Producer()
         # producer.run()
 
 
         # setting up server variables
-        topic = 'test'      # 'ctm-transactions-topic'
+        topic = 'ctm-transactions-topic' #replace with topic name
         client_id = ''        
         servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
 
         # creating prodcuer instance
         print('Starting Producer on: \n Server: {}\n Client ID: {}\n Topic: {}'.format(str(servers), str(client_id), str(topic)))
+        
         producer = KafkaProducer(bootstrap_servers=servers,
-            client_id=client_id)
-        print('Connected')
+                                client_id=client_id)
 
         counter = 1
         while True:
@@ -32,7 +32,7 @@ class Producer(threading.Thread):
             msg_value = b'Hello World!!'
 
             #produce message to topic
-            producer.send(topic, value=msg_value, key=msg_key)
+            producer.send(topic, key=msg_key, value=msg_value,)
 
             print('{} Produced message, key: {}, value: {}'.format(counter, msg_key, msg_value ))
             counter += 1
@@ -55,7 +55,7 @@ class Consumer:
 
 
         # setting up server variables
-        topic = 'test'      # 'ctm-transactions-topic'
+        topic = 'ctm-transactions-topic'
         group_id = None       
         servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
 
