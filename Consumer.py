@@ -56,7 +56,7 @@ class Consumer:
             # print(print_kafka_record(record))
 
             key = record.key
-            data = json.load(record.value.decode('utf8'))
+            data = json.loads(record.value.decode('utf8'))
 
             print(key)
             print(data)
