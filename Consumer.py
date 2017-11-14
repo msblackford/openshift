@@ -31,7 +31,7 @@ class Consumer:
         servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
 
         # creating prodcuer instance
-        print('Starting Producer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
+        print('Starting Consumer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
 
         # if seeking, don't assign topic or auto_offset_reset here
         consumer = KafkaConsumer(
@@ -54,24 +54,27 @@ class Consumer:
             #continuously runs and waits for new record, code in here will run on each record received
 
             # print(print_kafka_record(record))
+            print("Original Record:")
             print(record.key)
             print(record.value)
 
             key = record.key.decode('utf-8')
-            data = json.loads(record.value.decode('utf-8'))
+            json_data = json.loads(record.value.decode('utf-8'))
 
-            print(data)
+            print("JSON data and transformation")
+            print(json.dumps(json_data, indent=4, sort_keys=True)) # print the json prettily  
 
             print("key: " + key)
-            print("accountId: " + data['account']['accountId'])
-            print("accountCloseDate: " + data['account']['accountCloseDate'])
+            print("accountId: " + json_data['account']['accountId'])
+            print("accountCloseDate: " + json_data['account']['accountCloseDate'])
 
-            data['account']['accountId'] = "abc123"
+            json_data['account']['accountId'] = "abc123"
 
             
             new_record_key = record.key
-            new_record_value = json.dumps(data).encode('utf-8')
-            print(new_record_value)
+            new_record_value = json.dumps(json_data).encode('utf-8')
+            print("Transformed JSON data")
+            print(json.dumps(json_data, indent=4, sort_keys=True))
 
             print('\n')
             
