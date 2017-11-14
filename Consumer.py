@@ -57,14 +57,21 @@ class Consumer:
             print(record.key)
             print(record.value)
 
-            key = record.key.decode('utf8')
-            data = json.loads(record.value.decode('utf8'))
+            key = record.key.decode('utf-8')
+            data = json.loads(record.value.decode('utf-8'))
 
             print(data)
 
             print("key: " + key)
             print("accountId: " + data['account']['accountId'])
             print("accountCloseDate: " + data['account']['accountCloseDate'])
+
+            data['account']['accountId'] = "abc123"
+
+            record.value = json.dumps(data).encode('utf-8')
+            print(record.value)
+
+            
 
             # process record
             
