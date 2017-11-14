@@ -55,11 +55,12 @@ class Consumer:
 
             # print(print_kafka_record(record))
 
-            key = record.key
+            key = record.key.decode('utf8')
             data = json.loads(record.value.decode('utf8'))
 
-            print(key)
-            print(data)
+            print("key: " + key)
+            print("accountId: " + data['account']['accountId'])
+            print("accountCloseDate: " + data['account']['accountCloseDate'])
 
             # process record
             
