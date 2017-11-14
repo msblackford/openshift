@@ -14,21 +14,16 @@ def print_kafka_record(record):
                 record.key, 
                 record.value))
 
-class Consumer:
+class Consumer(object):
     
     def run(self):
-        # Run a continously consuming KafkaConsumer starting from last offset of last record
-        # must define partition
-        # 
-        # consumer = Consumer()
-        # producer.run_seek_by_offset()
-
+        # start at 5 before end of queue
 
         # setting up server variables
         topic = 'ctm-transactions-topic'
         partition = 0
         group_id = None       
-        servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
+        servers = os.environ['SERVER'].split(',') #Kafka broker server system, from environment variable $SERVER
 
         # creating prodcuer instance
         print('Starting Consumer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
@@ -41,19 +36,17 @@ class Consumer:
 
 
         topic_par = TopicPartition(topic, partition)
-
         consumer.assign([topic_par])
+
         current_pos = consumer.position(topic_par)
         new_pos = current_pos - 5
-        if (new_pos < 0):
-            new_pos = 0
+        new_pos = 0 if new_pos < 0 else new_pos
         
         consumer.seek(topic_par, new_pos ) # consumer starting at offset from end of queue
 
         for record in consumer:
-            #continuously runs and waits for new record, code in here will run on each record received
+            #continuously runs and waits for new records
 
-            # print(print_kafka_record(record))
             print("Original Record:")
             print(record.key)
             print(record.value)
@@ -61,25 +54,24 @@ class Consumer:
             key = record.key.decode('utf-8')
             json_data = json.loads(record.value.decode('utf-8'))
 
-            print("JSON data and transformation")
+            print("JSON data:")
             print(json.dumps(json_data, indent=4, sort_keys=True)) # print the json prettily  
 
             print("key: " + key)
             print("accountId: " + json_data['account']['accountId'])
             print("accountCloseDate: " + json_data['account']['accountCloseDate'])
 
+            # transformation
             json_data['account']['accountId'] = "abc123"
 
-            
-            new_record_key = record.key
-            new_record_value = json.dumps(json_data).encode('utf-8')
             print("Transformed JSON data")
             print(json.dumps(json_data, indent=4, sort_keys=True))
 
-            print('\n')
-            
+            # convert to byte type key and value for production to another topic
+            new_record_key = record.key
+            new_record_value = json.dumps(json_data).encode('utf-8')
 
-            # process record
+            print("\n\n")
             
         print("Closing Kafka consumer")
         consumer.close()
@@ -89,7 +81,6 @@ def main():
     con = Consumer()
     con.run()
 
-        
         
 if __name__ == "__main__":
     main()

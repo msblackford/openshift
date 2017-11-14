@@ -27,7 +27,7 @@ class Producer(threading.Thread):
         # setting up server variables
         topic = 'ctm-transactions-topic' #replace with topic name
         client_id = ''        
-        servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
+        servers = os.environ['SERVER'].split(',') #Kafka broker server from system environment variable $SERVER
 
         # creating prodcuer instance
         print('Starting Producer on: \n Server: {}\n Client ID: {}\n Topic: {}'.format(str(servers), str(client_id), str(topic)))
@@ -53,7 +53,7 @@ class Producer(threading.Thread):
         producer.close()
 
 
-class Consumer:
+class Consumer(object):
     # https://kafka-python.readthedocs.io/en/master/apidoc/KafkaConsumer.html
     # note: consumer can't be multithreaded
 
@@ -61,16 +61,16 @@ class Consumer:
         # Run a continously consuming KafkaConsumer
         # can be run from start of topic or only consumer latest message
         # consumer = Consumer()
-        # producer.run_continuous()
+        # consumer.run_continuous()
 
 
         # setting up server variables
         topic = 'ctm-transactions-topic'
         group_id = None       
-        servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
+        servers = os.environ['SERVER'].split(',') #Kafka broker server from system environment variable $SERVER
 
         # creating prodcuer instance
-        print('Starting Producer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
+        print('Starting Consumer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
 
         consumer = KafkaConsumer(
             group_id=group_id,
@@ -96,17 +96,17 @@ class Consumer:
         # must define partition
         # 
         # consumer = Consumer()
-        # producer.run_seek_by_offset()
+        # consumer.run_seek_by_offset()
 
 
         # setting up server variables
         topic = 'ctm-transactions-topic'
         partition = 0
         group_id = None       
-        servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
+        servers = os.environ['SERVER'].split(',') #Kafka broker server from system environment variable $SERVER
 
         # creating prodcuer instance
-        print('Starting Producer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
+        print('Starting Consumer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
 
         # if seeking, don't assign topic or auto_offset_reset here
         consumer = KafkaConsumer(
@@ -139,7 +139,7 @@ class Consumer:
         # run a consumer that consumer records between timestamps
         # 
         # consumer = Consumer()
-        # producer.run_seek_by_timestamp()
+        # consumer.run_seek_by_timestamp()
 
         starting_timestamp = 1510607303965              # timestamp in milliseconds since epoch
         ending_timestamp = starting_timestamp + 2000    # starting plus offset in milliseconds
@@ -148,10 +148,10 @@ class Consumer:
         topic = 'ctm-transactions-topic'
         partition = 0
         group_id = None       
-        servers = os.environ['SERVER'].split(',') #Kafka broker server system environment variable $SERVER
+        servers = os.environ['SERVER'].split(',') #Kafka broker server from system environment variable $SERVER
 
         # creating prodcuer instance
-        print('Starting Producer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
+        print('Starting Consumer on: \n Server: {}\n Group ID: {}\n Topic: {}'.format(str(servers), str(group_id), str(topic)))
 
         # if seeking, don't assign topic or auto_offset_reset here
         consumer = KafkaConsumer(
@@ -182,6 +182,17 @@ class Consumer:
             
         print("Closing Kafka consumer")
         consumer.close()
+
+
+class Conversions(object):
+    def bytestring_to_json(self, bytestring):
+        data = json.loads(bytestring.value.decode('utf-8'))
+        return data
+
+    def json_to_bytestring(self, json_data):
+        byte_string = json.dumps(json_data).encode('utf-8')
+        return byte_string
+
 
 
 
