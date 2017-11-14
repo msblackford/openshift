@@ -54,9 +54,13 @@ class Consumer:
             #continuously runs and waits for new record, code in here will run on each record received
 
             # print(print_kafka_record(record))
+            print(record.key)
+            print(record.value)
 
             key = record.key.decode('utf8')
             data = json.loads(record.value.decode('utf8'))
+
+            print(data)
 
             print("key: " + key)
             print("accountId: " + data['account']['accountId'])
