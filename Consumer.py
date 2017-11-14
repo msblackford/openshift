@@ -68,8 +68,10 @@ class Consumer:
 
             data['account']['accountId'] = "abc123"
 
-            record.value = json.dumps(data).encode('utf-8')
-            print(record.value)
+            
+            new_record_key = record.key
+            new_record_value = json.dumps(data).encode('utf-8')
+            print(new_record_value)
 
             print('\n')
             
