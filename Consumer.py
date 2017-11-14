@@ -1,5 +1,6 @@
 import threading, logging, time
 import os, datetime
+import json
 
 from kafka import KafkaConsumer
 from kafka import TopicPartition
@@ -52,7 +53,13 @@ class Consumer:
         for record in consumer:
             #continuously runs and waits for new record, code in here will run on each record received
 
-            print(print_kafka_record(record))
+            # print(print_kafka_record(record))
+
+            key = record.key
+            data = json.load(record.value.decode('utf8'))
+
+            print(key)
+            print(data)
 
             # process record
             
