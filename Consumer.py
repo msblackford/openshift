@@ -71,6 +71,7 @@ class Consumer:
             record.value = json.dumps(data).encode('utf-8')
             print(record.value)
 
+            print('\n')
             
 
             # process record
