@@ -91,7 +91,7 @@ class Consumer:
         print("Closing Kafka consumer")
         consumer.close()
 
-    def run_seek_by_offset(self):
+    def run_seek_by_offset(self, offset_from_end=10):
         # Run a continously consuming KafkaConsumer starting from last offset of last record
         # must define partition
         # 
@@ -119,7 +119,9 @@ class Consumer:
 
         consumer.assign([topic_par])
         current_pos = consumer.position(topic_par)
-        new_pos = current_pos - 5
+        new_pos = current_pos - offset_from_end
+        if (new_pos < 0):
+            new_pos = 0
         consumer.seek(topic_par, new_pos ) # consumer starting at offset from end of queue
 
         for record in consumer:
@@ -185,7 +187,7 @@ class Consumer:
 
 def main():
     consumer = Consumer()
-    consumer.run_continuous()
+    consumer.run_seek_by_offset(5)
 
     #prod = Producer()
     #prod.run()
