@@ -115,12 +115,12 @@ class Consumer:
             )
 
 
-        topicPar = TopicPartition(topic, partition)
+        topic_par = TopicPartition(topic, partition)
 
-        consumer.assign([topicPar])
-        current_pos = consumer.position(topicPar)
+        consumer.assign([topic_par])
+        current_pos = consumer.position(topic_par)
         new_pos = current_pos - 5
-        consumer.seek(topicPar, new_pos ) # consumer starting at offset from end of queue
+        consumer.seek(topic_par, new_pos ) # consumer starting at offset from end of queue
 
         for record in consumer:
             #continuously runs and waits for new record, code in here will run on each record received
@@ -158,14 +158,14 @@ class Consumer:
             )
 
 
-        topicPar = TopicPartition(topic, partition)
-        consumer.assign([topicPar])
+        topic_par = TopicPartition(topic, partition)
+        consumer.assign([topic_par])
 
-        pos_at_time = consumer.offsets_for_times( { topicPar : starting_timestamp } )
+        pos_at_time = consumer.offsets_for_times( { topic_par : starting_timestamp } )
         print(pos_at_time)
-        print("Offset: {}, Timestampe: {}".format(pos_at_time[topicPar].offset, pos_at_time[topicPar].timestamp))
+        print("Offset: {}, Timestampe: {}".format(pos_at_time[topic_par].offset, pos_at_time[topic_par].timestamp))
         
-        consumer.seek(topicPar, pos_at_time[topicPar].offset ) # consumer starting at offset from end of queue
+        consumer.seek(topic_par, pos_at_time[topic_par].offset ) # consumer starting at offset from end of queue
 
         records = []
         for record in consumer:
