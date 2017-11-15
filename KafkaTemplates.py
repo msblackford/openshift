@@ -5,16 +5,17 @@ import datetime
 from kafka import KafkaProducer, KafkaConsumer, TopicPartition
 
 
-def print_kafka_record(record):
-    return ("Received message: partition: {} | offset: {} | timestamp: {} | key: {} | value: {} ".format(
+def strf_consumer_record(record):
+    return_string =  ("Received message: partition: {} | offset: {} | timestamp: {} | key: {} | value: {} ".format(
                 record.partition, 
                 record.offset, 
                 datetime.datetime.fromtimestamp(record.timestamp/1000).strftime('%Y-%m-%d %H:%M:%S.') + str(record.timestamp%1000),
                 record.key, 
                 record.value))
+    return return_string
 
 
-class Producer(threading.Thread):
+class Producer(object):
     # https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html
 
     def run(self):
@@ -84,7 +85,7 @@ class Consumer(object):
         for record in consumer:
             #continuously runs and waits for new record, code in here will run on each record received
 
-            print(print_kafka_record(record))
+            print(strf_consumer_record(record))
 
             # process record
             
@@ -127,7 +128,7 @@ class Consumer(object):
         for record in consumer:
             #continuously runs and waits for new record, code in here will run on each record received
 
-            print(print_kafka_record(record))
+            print(strf_consumer_record(record))
 
             # process record
             
@@ -165,7 +166,7 @@ class Consumer(object):
 
         pos_at_time = consumer.offsets_for_times( { topic_par : starting_timestamp } )
         print(pos_at_time)
-        print("Offset: {}, Timestampe: {}".format(pos_at_time[topic_par].offset, pos_at_time[topic_par].timestamp))
+        print("Offset: {}, Timestamp: {}".format(pos_at_time[topic_par].offset, pos_at_time[topic_par].timestamp))
         
         consumer.seek(topic_par, pos_at_time[topic_par].offset ) # consumer starting at offset from end of queue
 
@@ -177,7 +178,7 @@ class Consumer(object):
             records.append(record)
         
         for r in records:
-            print(print_kafka_record(r))
+            print(strf_consumer_record(r))
 
             
         print("Closing Kafka consumer")
@@ -198,7 +199,7 @@ class Conversions(object):
 
 def main():
     consumer = Consumer()
-    consumer.run_seek_by_offset(5)
+    consumer.run_continuous()
 
     #prod = Producer()
     #prod.run()
